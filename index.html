@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mattia Web</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --text: #f5f5f5;
+      --accent: #ffffff;
+      --muted: #b0b0b0;
+      --highlight: #d4af37;
+      --card: #141414;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2em 3em;
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+
+    header.scrolled {
+      background: rgba(0,0,0,0.9);
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8em;
+      color: var(--accent);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2em;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      letter-spacing: 0.05em;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--highlight);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--highlight);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    nav a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      background: url('duomo-milano.jpg') center center / cover fixed no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--accent);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(2px);
+      z-index: 1;
+    }
+
+    .hero h2, .hero p {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1.2s ease forwards;
+    }
+
+    .hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 0.4em;
+    }
+
+    .hero p {
+      font-size: 1.3em;
+      animation-delay: 0.4s;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    section {
+      padding: 6em 2em;
+      max-width: 1200px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4em;
+      margin-bottom: 1em;
+      text-align: center;
+      color: var(--accent);
+    }
+
+    section p {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 2em auto;
+      font-size: 1.15em;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* PORTFOLIO */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2em;
+    }
+
+    .portfolio-item {
+      background: var(--card);
+      padding: 2em;
+      border-radius: 16px;
+      text-align: center;
+      transition: all 0.4s ease;
+      border: 1px solid #222;
+    }
+
+    .portfolio-item:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 10px 25px rgba(255,255,255,0.05);
+    }
+
+    /* FORM */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      max-width: 500px;
+      margin: 2em auto 0;
+    }
+
+    input, textarea {
+      padding: 1em;
+      border-radius: 10px;
+      border: 1px solid #333;
+      background: #111;
+      color: var(--text);
+      font-size: 1em;
+      transition: border 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--highlight);
+    }
+
+    button {
+      padding: 1em;
+      border-radius: 10px;
+      background: var(--highlight);
+      border: none;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #b9972d;
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2em;
+      background: #111;
+      color: var(--muted);
+      font-size: 0.9em;
+    }
+
+    footer a {
+      color: var(--highlight);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 1em;
+      }
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mattia Web</h1>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">Chi sono</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contatti</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home" class="hero">
+    <h2>Benvenuto nel mio mondo digitale</h2>
+    <p>Sto costruendo qualcosa di grande. Resta connesso!</p>
+  </section>
+
+  <section id="about">
+    <h3>Chi sono</h3>
+    <p>Sono Mattia, e questo è il mio spazio online per condividere idee, progetti e opportunità.</p>
+  </section>
+
+  <section id="portfolio">
+    <h3>Portfolio</h3>
+    <p>Qui troverai alcuni dei miei lavori più recenti.</p>
+    <div class="portfolio-grid">
+      <div class="portfolio-item">💡 Progetto 1</div>
+      <div class="portfolio-item">🚀 Progetto 2</div>
+      <div class="portfolio-item">🎨 Progetto 3</div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h3>Contatti</h3>
+    <p>Scrivimi un messaggio, ti risponderò presto!</p>
+    <form>
+      <input type="text" placeholder="Il tuo nome" required />
+      <input type="email" placeholder="La tua email" required />
+      <textarea rows="5" placeholder="Il tuo messaggio" required></textarea>
+      <button type="submit">Invia</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 Mattia Web | Seguimi su 
+      <a href="#">Instagram</a> e 
+      <a href="#">LinkedIn</a>
+    </p>
+  </footer>
+
+  <script>
+    // Navbar scorrevole
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Effetto apparizione sezioni
+    const sections = document.querySelectorAll('section');
+    const reveal = () => {
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) {
+          sec.classList.add('visible');
+        }
+      });
+    };
+    window.addEventListener('scroll', reveal);
+    reveal();
+  </script>
+</body>
+</html>
